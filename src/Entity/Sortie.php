@@ -21,7 +21,7 @@ class Sortie
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    private ?integer $duree = null;
+    private ?int $duree = null;
 
     #[ORM\Column]
     private ?int $nbParticipant = null;
@@ -65,12 +65,12 @@ class Sortie
         return $this;
     }
 
-    public function getDuree(): ?integer
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
 
-    public function setDuree(integer $duree): self
+    public function setDuree(int $duree): self
     {
         $this->duree = $duree;
 

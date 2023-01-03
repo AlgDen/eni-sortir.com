@@ -18,14 +18,23 @@ class Lieu
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $gps = null;
-
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
     private Collection $sorties;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $rue = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $cp = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $latitude = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $longitude = null;
 
     public function __construct()
     {
@@ -49,29 +58,6 @@ class Lieu
         return $this;
     }
 
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getGps(): ?string
-    {
-        return $this->gps;
-    }
-
-    public function setGps(string $gps): self
-    {
-        $this->gps = $gps;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Sortie>
@@ -99,6 +85,66 @@ class Lieu
                 $sorty->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getRue(): ?string
+    {
+        return $this->rue;
+    }
+
+    public function setRue(string $rue): self
+    {
+        $this->rue = $rue;
+
+        return $this;
+    }
+
+    public function getCp(): ?string
+    {
+        return $this->cp;
+    }
+
+    public function setCp(string $cp): self
+    {
+        $this->cp = $cp;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): self
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }
