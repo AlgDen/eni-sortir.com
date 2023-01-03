@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    <div>
+        Date du jour : {{ 'now'|date('d - m -Y') }}
+        <br><br>Participant : {# TODO: add user name format : <name> <first letter>. #}
+    </div>
+
+    <span>
+        Filtrer les sorties<br>
+        {{ form_start(form) }}
+        {# TODO: get a list of places #}
+        Site : {{ form_widget(form.lieu) }}<br>
+        Le nom de la sortie contient : {{ form_widget(form.nom) }}<br>
+        Entre {{ form_widget(form.date) }} et {{ form_widget(form.dateFin) }}<br>
+        {{ form_end(form) }}
+    </span>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nom de la sortie</th>
+            <th scope="col">Date de la sortie</th>
+            <th scope="col">Clôture</th>
+            <th scope="col">Inscrits/places</th>
+            <th scope="col">Etat</th>
+            <th scope="col">Inscrit</th>
+            <th scope="col">Organisateur</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
