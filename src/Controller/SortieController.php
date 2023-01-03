@@ -18,16 +18,21 @@ class SortieController extends AbstractController
         $form = $this->createForm(AfficherSortiesType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $debug= "";
+
+        $data = null;
+
+        if ($form->isSubmitted()) {
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $data = $form->getData();
-            var_dump($data);
-            var_dump($form->getData());
+            $debug = $form->get('nom')->getData();
             // ... perform some action, such as saving the task to the database
 
-            return $this->redirectToRoute('app_sortie');
+//            return $this->redirectToRoute('app_sortie');
         }
+        dump($debug);
+
 
         return $this->render('sortie/index.html.twig', [
             'form' => $form,
