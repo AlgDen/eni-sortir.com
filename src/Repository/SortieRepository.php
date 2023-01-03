@@ -39,6 +39,18 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findField($value): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */

@@ -5,18 +5,19 @@
 {% block body %}
     <div>
         Date du jour : {{ 'now'|date('d - m -Y') }}
-        <br>Participant : {# TODO: add user name format : <name> <first letter>. #}
+        <br><br>Participant : {# TODO: add user name format : <name> <first letter>. #}
     </div>
 
     <span>
         Filtrer les sorties<br>
-        Site :
-        Le nom de la sortie contient :
-        Entre ... et ...
-
+        {{ form_start(form) }}
+        {# TODO: get a list of places #}
+        Site : {{ form_widget(form.lieu) }}<br>
+        Le nom de la sortie contient : {{ form_widget(form.nom) }}<br>
+        Entre {{ form_widget(form.date) }} et {{ form_widget(form.dateFin) }}<br>
+        {{ form_end(form) }}
     </span>
 
-    {# TODO: add form here (data research for tab underneath #}
     <table class="table">
         <thead>
         <tr>
