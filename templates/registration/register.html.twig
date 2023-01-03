@@ -1,21 +1,47 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base.html.twig' %} 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
+{# errors #}
+{% for flash_error in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+{% endfor %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+<div class="container security-container">
+  <h1>Register</h1>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{{ form_start(registrationForm) }}
+
+{# email #}
+  <div class="row">
+    <div class="col">
+      {{ form_label(registrationForm.email) }}
+    </div>
+    <div class="col">
+      {{ form_widget(registrationForm.email) }}
+    </div>
+  </div>
+
+{# password #}
+  <div class="row">
+    <div class="col">
+      {{ form_label(registrationForm.plainPassword, 'Password') }}
+    </div>
+    <div class="col">
+      {{ form_widget(registrationForm.plainPassword) }}
+    </div>
+  </div>
+
+{# remember me #}
+    {# <label>
+        <input type="checkbox" name="_remember_me" checked/>
+        Keep me logged in
+    </label> #}
+
+{# submit #}
+    <button type="submit" class="btn">Register</button>
+{{ form_end(registrationForm) }}
+
+</div>
 {% endblock %}
