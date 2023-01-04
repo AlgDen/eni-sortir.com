@@ -43,9 +43,15 @@
                 <th>{{ sortie.nom }}</th>
                 <td>{{ sortie.date|date("d/m/Y H:i") }}</td>
                 <td>{{ sortie.dateLimiteInscription|date("d/m/Y") }}</td>
-                <td>../{{ sortie.nbParticipant }}</td>
+                <td>{{ sortie.inscrits.count }}/{{ sortie.nbParticipant }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
-                <td>..</td>
+                <td>
+                    {% if app.user in sortie.inscrits %}
+                        ×
+                    {% else %}
+
+                    {% endif %}
+                </td>
                 <td>{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</td>
                 {#
                     @RG
