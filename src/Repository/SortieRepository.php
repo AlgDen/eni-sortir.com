@@ -39,16 +39,43 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findField($value): array
+    public function researchSortie(Sortie $entity, $dateDebut, $dateFin, $option1, $option2, $option3, $option4): array
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('s.nom LIKE :vNom')
+            ->setParameter('vNom', '%'.$entity->getNom().'%')
+            ->andWhere('s.date BETWEEN :dateD AND :dateF')
+            ->setParameter('dateD', $dateDebut)
+            ->setParameter('dateF', $dateFin)
             ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        $qb = $this->createQueryBuilder('s');
+        if($entity->getLieu()){
+            if ($entity->getLieu()->getNom() !== null || $entity->getLieu()->getNom() !== "") {
+//            $qb->andWhere('s.')
+            }
+        }
+        if ($entity->getNom() !== null) {
+            $qb->andWhere('s.nom = :vNom')
+                ->setParameter('vNom', $entity->getNom());
+        }
+        $qb->andWhere('s.date BETWEEN :dateD AND :dateF')
+            ->setParameter('dateD', $dateDebut)
+            ->setParameter('dateF', $dateFin)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+//            ->andWhere('s.exampleField = :val')
+//            ->setParameter('val', $entity)
+//            ->orderBy('s.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+        dump($qb);
+//        dd($qb);
+        return $qb;
     }
 
 //    /**
