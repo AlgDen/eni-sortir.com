@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +38,20 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
+    #[ORM\ManyToOne]
+    private ?Etat $etat = null;
+
+    #[ORM\ManyToOne]
+    private ?User $Organisateur = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $inscrits;
+
+    public function __construct()
+    {
+        $this->inscrits = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +83,7 @@ class Sortie
 
     public function getDuree(): ?int
     {
+
         return $this->duree;
     }
 
@@ -120,6 +137,54 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->Organisateur;
+    }
+
+    public function setOrganisateur(?User $Organisateur): self
+    {
+        $this->Organisateur = $Organisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getInscrits(): Collection
+    {
+        return $this->inscrits;
+    }
+
+    public function addInscrit(User $inscrit): self
+    {
+        if (!$this->inscrits->contains($inscrit)) {
+            $this->inscrits->add($inscrit);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrit(User $inscrit): self
+    {
+        $this->inscrits->removeElement($inscrit);
 
         return $this;
     }

@@ -3,22 +3,27 @@
 {% block title %}{{ parent() }}{% endblock %}
 
 {% block body %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <div>
-        Date du jour : {{ 'now'|date('d - m -Y') }}
-        <br><br>Participant : {# TODO: add user name format : <name> <first letter>. #}
+        Date du jour : {{ 'now'|date('d/m/Y') }}
+        <br><br>Participant :
+        {% if app.user %}
+            {{ app.user.firstname }} {{ app.user.lastname|slice(0,1)}}.
+        {% endif %}
     </div>
 
     <span>
-        Filtrer les sorties<br>
+        <h1>Filtrer les sorties</h1>
         {{ form_start(form) }}
         {# TODO: get a list of places #}
         Site : {{ form_widget(form.lieu) }}<br>
         Le nom de la sortie contient : {{ form_widget(form.nom) }}<br>
-        Entre {{ form_widget(form.date) }} et {{ form_widget(form.dateFin) }}<br>
+        Entre {{ form_widget(form.dateDebut) }} et {{ form_widget(form.dateFin) }}<br>
         {{ form_end(form) }}
     </span>
 
-    <table class="table">
+    {{ dump(data) }}
+    <table class="table table-striped-columns">
         <thead>
         <tr>
             <th scope="col">Nom de la sortie</th>
@@ -32,24 +37,52 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        {% for sortie in data %}
+            <tr>
+                <th>{{ sortie.nom }}</th>
+                <td>{{ sortie.date|date("d/m/Y H:i") }}</td>
+                <td>{{ sortie.dateLimiteInscription|date("d/m/Y") }}</td>
+                <td>{{ sortie.inscrits.count }}/{{ sortie.nbParticipant }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>
+                    {% if app.user in sortie.inscrits %}
+                        ×
+                    {% endif %}
+                </td>
+                <td>{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname|slice(0,1) }}.</td>
+                {#
+                    @RG
+                    #Afficher
+                    - displayed in any case other than 'En création'
+                    - clickable if Etat is 'En Cours'
+                    #Modifier
+                    - displayed & clickable if author is user AND Etat is 'En Création'
+                    #Se désister
+                    - displayed if author isn't user AND user is inscrit
+                #}
+                <td>
+
+                    {% if sortie.etat.id != 1 %}
+                        Afficher
+                    {% endif %}
+                    {% if sortie.etat.id == 1 and sortie.organisateur == app.user %}
+                        Modifier
+                    {% endif %}
+                    {% if sortie.organisateur != app.user and app.user in sortie.inscrits and sortie.etat.id == 4 %}
+                        Se désister
+                    {% endif %}
+                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 %}
+                        S'incrire
+                    {% endif %}
+                    {% if sortie.organisateur == app.user and sortie.etat.id == 1 %}
+                        Publier
+                    {% endif %}
+                    {% if sortie.organisateur == app.user and sortie.etat.id == 6 %}
+                        Annuler
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}
