@@ -10,7 +10,6 @@
         {% if app.user %}
             {{ app.user.firstname }} {{ app.user.lastname|slice(0,1)}}.
         {% endif %}
-
     </div>
 
     <span>
@@ -24,7 +23,7 @@
     </span>
 
     {{ dump(data) }}
-    <table class="table">
+    <table class="table table-striped-columns">
         <thead>
         <tr>
             <th scope="col">Nom de la sortie</th>
@@ -48,11 +47,9 @@
                 <td>
                     {% if app.user in sortie.inscrits %}
                         ×
-                    {% else %}
-
                     {% endif %}
                 </td>
-                <td>{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</td>
+                <td>{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname|slice(0,1) }}.</td>
                 {#
                     @RG
                     #Afficher
@@ -61,9 +58,29 @@
                     #Modifier
                     - displayed & clickable if author is user AND Etat is 'En Création'
                     #Se désister
-                    - displayed if author isn't user AND user isn't inscrit
+                    - displayed if author isn't user AND user is inscrit
                 #}
-                <td>..</td>
+                <td>
+
+                    {% if sortie.etat.id != 1 %}
+                        Afficher
+                    {% endif %}
+                    {% if sortie.etat.id == 1 and sortie.organisateur == app.user %}
+                        Modifier
+                    {% endif %}
+                    {% if sortie.organisateur != app.user and app.user in sortie.inscrits and sortie.etat.id == 4 %}
+                        Se désister
+                    {% endif %}
+                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 %}
+                        S'incrire
+                    {% endif %}
+                    {% if sortie.organisateur == app.user and sortie.etat.id == 1 %}
+                        Publier
+                    {% endif %}
+                    {% if sortie.organisateur == app.user and sortie.etat.id == 6 %}
+                        Annuler
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
