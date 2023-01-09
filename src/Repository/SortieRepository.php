@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -16,9 +17,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
+        $this->security = $security;
     }
 
     public function save(Sortie $entity, bool $flush = false): void
@@ -41,27 +46,36 @@ class SortieRepository extends ServiceEntityRepository
 
     public function researchSortie(Sortie $entity, $dateDebut, $dateFin, $option1, $option2, $option3, $option4): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.nom LIKE :vNom')
-            ->setParameter('vNom', '%'.$entity->getNom().'%')
-            ->andWhere('s.date BETWEEN :dateD AND :dateF')
-            ->setParameter('dateD', $dateDebut)
-            ->setParameter('dateF', $dateFin)
-            ->orderBy('s.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.nom LIKE :vNom')
+//            ->setParameter('vNom', '%' . $entity->getNom() . '%')
+//            ->andWhere('s.date BETWEEN :dateD AND :dateF')
+//            ->setParameter('dateD', $dateDebut)
+//            ->setParameter('dateF', $dateFin)
+//            ->orderBy('s.id', 'ASC')
+//            ->getQuery()
+//            ->getResult();
 
-        $qb = $this->createQueryBuilder('s');
-        if($entity->getLieu()){
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.inscrits', 'i');
+        if ($entity->getLieu()) {
             if ($entity->getLieu()->getNom() !== null || $entity->getLieu()->getNom() !== "") {
-//            $qb->andWhere('s.')
+//            $qb->andWhere('s.lieu ')
             }
         }
         if ($entity->getNom() !== null) {
-            $qb->andWhere('s.nom = :vNom')
+            $qb = $qb->andWhere('s.nom = :vNom')
                 ->setParameter('vNom', $entity->getNom());
         }
-        $qb->andWhere('s.date BETWEEN :dateD AND :dateF')
+        $user = $this->security->getUser();
+        if ($option1) {
+            $qb = $qb->andWhere('s.Organisateur = :user')
+                ->setParameter('user', $user);
+        }
+//        if ($option2) {
+//            $qb = $qb->andWhere('s.inscrits ')
+//        }
+        $qb = $qb->andWhere('s.date BETWEEN :dateD AND :dateF')
             ->setParameter('dateD', $dateDebut)
             ->setParameter('dateF', $dateFin)
             ->orderBy('s.id', 'ASC')
@@ -73,7 +87,6 @@ class SortieRepository extends ServiceEntityRepository
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
-        dump($qb);
 //        dd($qb);
         return $qb;
     }
