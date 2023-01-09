@@ -4,12 +4,18 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
-use Doctrine\DBAL\Types\TextType;
+use App\Entity\Ville;
+use App\Repository\LieuRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreerSortieType extends AbstractType
@@ -37,10 +43,15 @@ class CreerSortieType extends AbstractType
             ])
             ->add('lieu',EntityType::class,[
                 'class' => Lieu::class,
-                'choice_label' => new Lieu(),
+                'choice_label' => 'nom',
+                'choice_attr' => function (Lieu $choice, $key, $value) {
+                    // adds a class like attending_yes, attending_no, etc
+                    return ['data-idLieu' => $choice->getId()];
+                },
                 'label' => 'Lieu'
             ])
-            ->add('ville',null,[
+            ->add('ville',TextType::class,[
+//                'class' => Ville::class,
                 'label' => 'Ville',
                 'disabled' => true,
                 'mapped' => false
@@ -65,19 +76,18 @@ class CreerSortieType extends AbstractType
                 'disabled' => true,
                 'mapped' => false
             ])
-            ->add('enregistrer',ButtonType::class,[
+            ->add('enregistrer',SubmitType::class,[
                 'label' => 'Enregistrer'
                 ]
             )
-            ->add('publier',ButtonType::class,[
+            ->add('publier',SubmitType::class,[
                     'label' => 'Publier la sortie'
                 ]
             )
             ->add('annuler',ButtonType::class,[
                     'label' => 'Annuler'
                 ]
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
