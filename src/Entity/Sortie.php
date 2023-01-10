@@ -141,7 +141,6 @@ class Sortie
         return $this;
     }
 
-
     public function getEtat(): ?Etat
     {
         return $this->etat;
@@ -150,7 +149,6 @@ class Sortie
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
-
         return $this;
     }
 
