@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\CreerSortieType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
+use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,12 +16,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class CreerSortieController extends AbstractController
 {
-    #[Route('/creerSortie', name: 'app_creer_sortie')]
-    public function creerSortie(Request $request,EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    private $security;
+    public function __construct(Security $security)
     {
+        $this->security = $security;
+    }
+    #[Route('/creerSortie', name: 'app_creer_sortie')]
+    public function creerSortie(Request $request,EntityManagerInterface $entityManager, EtatRepository $etatRepository,UserRepository $userRepository): Response
+    {
+
         $sortie = new Sortie();
         $form = $this->createForm(CreerSortieType::class, $sortie);
         $form->handleRequest($request);
@@ -33,6 +42,7 @@ class CreerSortieController extends AbstractController
             else{
                 $sortie->setEtat($etatRepository->find(4));
             }
+            $sortie->setOrganisateur($userRepository->findOneBy(array('email' => $this->security->getUser()->getUserIdentifier())));
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this->redirectToRoute('app_creer_sortie');

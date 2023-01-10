@@ -9,6 +9,8 @@ use App\Repository\LieuRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +19,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class CreerSortieType extends AbstractType
 {
@@ -26,17 +29,27 @@ class CreerSortieType extends AbstractType
             ->add('nom',null,[
                 'label' => 'Nom de la sortie',
             ])
-            ->add('date',null,[
+            ->add('date',DateTimeType::class,[
                 'label' => 'Date et heure de la sortie',
             ])
             ->add('dateLimiteInscription',null,[
                 'label' => 'Date limite d\'inscription',
             ])
-            ->add('nbParticipant',null,[
+            ->add('nbParticipant',IntegerType::class,[
                 'label' => 'Nombre de places',
+                'constraints' => [new Positive()],
+                'attr' => [
+                    'min' => 1,
+                    'style' => 'width: 50px'
+                ]
             ])
-            ->add('duree',null,[
+            ->add('duree',IntegerType::class,[
                 'label' => 'Durée',
+                'constraints' => [new Positive()],
+                'attr' => [
+                     'min' => 1,
+                     'style' => 'width: 50px'
+                ]
             ])
             ->add('note',TextareaType::class,[
                 'label' => 'Description et infos',
