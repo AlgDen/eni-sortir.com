@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\AfficherSortiesType;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie')]
-    public function index(Request $request, SortieRepository $sortieRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository, UserRepository $userRepository): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(AfficherSortiesType::class, $sortie);
@@ -33,6 +34,7 @@ class SortieController extends AbstractController
         $option2 = null;
         $option3 = null;
         $option4 = null;
+        $empty = null;
 
         if ($form->isSubmitted()) {
             // $form->getData() holds the submitted values
@@ -45,17 +47,23 @@ class SortieController extends AbstractController
             $option3 = $form->get('option3')->getData();
             $option4 = $form->get('option4')->getData();
 
-            $data = $sortieRepository->researchSortie($data, $dateDebut, $dateFin, $option1, $option2, $option3, $option4);
+            $data = $sortieRepository->researchSortie($data, $dateDebut, $dateFin, $option1, $option2, $option3, $option4, $userRepository);
 
+            if ($data == null) {
+                $empty = true;
+            } else {
+                $empty = false;
+            }
 //            return $this->redirectToRoute('app_sortie');
         }
         if($data == null){
-            $data = $sortieRepository->findAll();
+            $data = $sortieRepository->findBy(array(), array('date' => 'ASC'), 10, 0);
         }
         //TODO: if data is null then take find all, else take search from form
         return $this->render('sortie/index.html.twig', [
             'form' => $form,
-            'data' => $data
+            'data' => $data,
+            'alert' => $empty
         ]);
     }
 }

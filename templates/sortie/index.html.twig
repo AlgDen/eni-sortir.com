@@ -6,22 +6,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <div>
         Date du jour : {{ 'now'|date('d/m/Y') }}
-        <br><br>Participant :
+        <br>Participant :
         {% if app.user %}
             {{ app.user.firstname }} {{ app.user.lastname|slice(0,1)}}.
         {% endif %}
     </div>
-
     <span>
         <h1>Filtrer les sorties</h1>
         {{ form_start(form) }}
-        {# TODO: get a list of places #}
         Site : {{ form_widget(form.lieu) }}<br>
         Le nom de la sortie contient : {{ form_widget(form.nom) }}<br>
         Entre {{ form_widget(form.dateDebut) }} et {{ form_widget(form.dateFin) }}<br>
         {{ form_end(form) }}
     </span>
 
+    {% if alert %}
+        <div class="alert alert-warning" role="alert">
+            [To Patch] Aucune donnée trouvée
+        </div>
+    {% endif %}
     <table class="table table-striped-columns">
         <thead>
         <tr>
@@ -61,6 +64,7 @@
                 #}
                 <td>
 
+                    {# TODO: etablir la liaison avec les actions #}
                     {% if sortie.etat.id != 1 %}
                         Afficher
                     {% endif %}
@@ -84,4 +88,5 @@
         {% endfor %}
         </tbody>
     </table>
+    <button><a href="{{ path('app_creer_sortie') }}">Créer une sortie</a></button>
 {% endblock %}
