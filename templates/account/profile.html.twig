@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+  Gérer mon profil
+{% endblock %}
+
+{% block body %}
+  <h1 class="mb-6 p-3 bg-blue-700 dark:bg-blue-600 text-center align-middle	 uppercase text-2xl font-bold text-slate-200">Gérer mon profil</h1>
+  {{ form_start(manageProfile) }}
+  <div class="px-6 md:grid md:grid-cols-2 md:gap-3 mb-6">
+    <div class="flex flex-col col-span-2 mb-2 md:mb-0">
+      {{ form_label(manageProfile.nickname) }}
+      {{ form_widget(manageProfile.nickname) }}
+    </div>
+  
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.firstname) }}
+      {{ form_widget(manageProfile.firstname) }}
+    </div>
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.lastname) }}
+      {{ form_widget(manageProfile.lastname) }}
+    </div>
+
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.email) }}
+      {{ form_widget(manageProfile.email) }}
+    </div>
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.phoneNumber) }}
+      {{ form_widget(manageProfile.phoneNumber) }}
+    </div>
+    
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.password.first) }}
+      {{ form_widget(manageProfile.password.first) }}
+    </div>
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.password.second) }}
+      {{ form_widget(manageProfile.password.second) }}
+    </div>
+
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.site) }}
+      {{ form_widget(manageProfile.site) }}
+    </div>
+    <div class="flex flex-col mb-2 md:mb-0">
+      {{ form_label(manageProfile.photo) }}
+      {{ form_widget(manageProfile.photo) }}
+    </div>
+
+    {{ form_widget(manageProfile.save, {'attr': {'class': 'h-10 bg-blue-700 rounded-lg w-full hover:bg-blue-500'}}) }}
+    <button class="mt-2 md:mt-0 w-full h-10 bg-red-600 rounded-lg hover:bg-red-400"><a href="{{ path('app_sortie') }}">Annuler</a></button>
+  </div>
+  {{ form_end(manageProfile) }}
+{% endblock %}
