@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% endblock %}
+{% block body %}
+{#    <input id="url" type="hidden">#}
+{#    <script>#}
+{#        const route = "{{ path('app_lieu_data') }}";#}
+
+{#       const urlInput = $("#url");#}
+{#       urlInput.attr("value",route);#}
+
+{#    </script>#}
+
+    <h1>Créer une sortie</h1>
+{{ form(creerSortieForm) }}
+{% endblock %}
