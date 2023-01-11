@@ -17,6 +17,10 @@ class AfficherSortiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $dateDebut = new \DateTime();
+        $dateDebut->modify('-1 week');
+        $dateFin = new \DateTime();
+        $dateFin->modify('+1 week');
         $builder
             ->add('lieu',EntityType::class,[
                 'class' => Lieu::class,
@@ -28,11 +32,13 @@ class AfficherSortiesType extends AbstractType
             ])
             ->add('dateDebut', DateType::class, [
                 'mapped' => false,
-                'data' => new \DateTime()
+                'data' => $dateDebut,
+                'format' => 'ddMMyyyy'
             ])
             ->add('dateFin', DateType::class, [
                 'mapped' => false,
-                'data' => new \DateTime()
+                'data' => $dateFin,
+                'format' => 'ddMMyyyy'
             ])
             ->add('option1', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',

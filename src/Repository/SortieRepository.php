@@ -44,49 +44,50 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function researchSortie(Sortie $entity, $dateDebut, $dateFin, $option1, $option2, $option3, $option4): array
+    public function researchSortie(Sortie $entity, $dateDebut, $dateFin, $option1, $option2, $option3, $option4, UserRepository $userRepository): array
     {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.nom LIKE :vNom')
-//            ->setParameter('vNom', '%' . $entity->getNom() . '%')
-//            ->andWhere('s.date BETWEEN :dateD AND :dateF')
-//            ->setParameter('dateD', $dateDebut)
-//            ->setParameter('dateF', $dateFin)
-//            ->orderBy('s.id', 'ASC')
-//            ->getQuery()
-//            ->getResult();
-
-        $qb = $this->createQueryBuilder('s')
-            ->leftJoin('s.inscrits', 'i');
+        $qb = $this->createQueryBuilder('s');
+//            ->leftJoin('user', 'u');
         if ($entity->getLieu()) {
             if ($entity->getLieu()->getNom() !== null || $entity->getLieu()->getNom() !== "") {
-//            $qb->andWhere('s.lieu ')
+            $qb = $qb->andWhere('s.lieu = :vLieu')
+                ->setParameter('vLieu', $entity->getLieu());
             }
         }
         if ($entity->getNom() !== null) {
-            $qb = $qb->andWhere('s.nom = :vNom')
-                ->setParameter('vNom', $entity->getNom());
+            $qb = $qb->andWhere('s.nom LIKE :vNom')
+                ->setParameter('vNom', '%'.$entity->getNom().'%');
         }
         $user = $this->security->getUser();
         if ($option1) {
             $qb = $qb->andWhere('s.Organisateur = :user')
-                ->setParameter('user', $user);
+                ->setParameter('user', $userRepository->findOneBy(array('email' => $user->getUserIdentifier())));
         }
-//        if ($option2) {
-//            $qb = $qb->andWhere('s.inscrits ')
-//        }
+        if ($option2 && $user) {
+            $qb = $qb->innerJoin('s.inscrits', 'su');
+            $qb = $qb->andWhere('su.email = :user')
+                ->setParameter('user', $user->getUserIdentifier());
+
+//            $qb = $qb->andWhere('su.sortie_id = s.id')x²
+//                ->andWhere('su. = u.id')
+//                ->andWhere('u.email = :user')
+//                ->setParameter('user', $user->getUserIdentifier());
+        }
+        if($option3) {
+//            $qb = $qb->andWhere('s.inscrits = u.');
+        }
+        if ($option4){
+            $qb = $qb->andWhere('s.etat = 6');
+        }
         $qb = $qb->andWhere('s.date BETWEEN :dateD AND :dateF')
-            ->setParameter('dateD', $dateDebut)
-            ->setParameter('dateF', $dateFin)
+            ->setParameter('dateD', $dateDebut->format('Y-m-d'))
+            ->setParameter('dateF', $dateFin->format('Y-m-d')) //Y-m-d
             ->orderBy('s.id', 'ASC')
+            ->orderBy('s.date', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $entity)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
 //        dd($qb);
         return $qb;
     }
