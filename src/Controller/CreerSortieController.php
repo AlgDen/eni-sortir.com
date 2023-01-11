@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Validator\Constraints\Date;
 
 class CreerSortieController extends AbstractController
 {
@@ -32,22 +33,24 @@ class CreerSortieController extends AbstractController
         $sortie = new Sortie();
         $form = $this->createForm(CreerSortieType::class, $sortie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $sortie = $form->getData();
-            if ($form->getClickedButton() && 'enregistrer' === $form->getClickedButton()->getName()) {
-                $sortie->setEtat($etatRepository->find(1));
+            $date = $sortie->getDate();
+            $dateMax = $sortie->getDateLimiteInscription();
+            $now = new \DateTime();
+            if($date > $now && $date > $dateMax){
+                if ($form->getClickedButton() && 'enregistrer' === $form->getClickedButton()->getName()) {
+                    $sortie->setEtat($etatRepository->find(1));
+                }
+                else{
+                    $sortie->setEtat($etatRepository->find(4));
+                }
+                $sortie->setOrganisateur($userRepository->findOneBy(array('email' => $this->security->getUser()->getUserIdentifier())));
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_creer_sortie');
             }
-            else{
-                $sortie->setEtat($etatRepository->find(4));
-            }
-            $sortie->setOrganisateur($userRepository->findOneBy(array('email' => $this->security->getUser()->getUserIdentifier())));
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_creer_sortie');
         }
-
         return $this->render('creer_sortie/index.html.twig', [
             'creerSortieForm' => $form,
         ]);

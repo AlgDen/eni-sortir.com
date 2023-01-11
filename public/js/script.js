@@ -2,7 +2,6 @@ window.onload = function() {
 
     // let select = document.getElementById("creer_sortie_lieu");
     let idLieu = $("#creer_sortie_lieu").find(":selected").attr("data-idlieu");
-    console.log(idLieu);
 
     $.ajax({
         url : "lieuData",
@@ -19,7 +18,6 @@ window.onload = function() {
             $("#creer_sortie_latitude").val(data.latitude);
             $("#creer_sortie_longitude").val(data.longitude);
 
-            console.log(data.nom)
         }
     })};
 $("#creer_sortie_lieu").change(function() {

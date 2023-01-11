@@ -2,6 +2,9 @@
 
 {% block title %}
 {% endblock %}
+ {% block javascripts %}
+     <script src="{{ asset('js/script.js') }}" type="text/javascript" defer></script>
+ {% endblock %}
 {% block body %}
     <h1>Créer une sortie</h1>
 {{ form(creerSortieForm) }}
