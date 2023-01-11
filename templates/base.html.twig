@@ -9,7 +9,9 @@
         <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.css" />
         <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
-        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{{ asset('js/script.js') }}" type="text/javascript" defer></script>
+
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -23,7 +25,7 @@
         <div class="container mx-auto py-10">
           {# navbar #}
           {% include 'inc/nav.html.twig' %}
-            
+
           <div class="flex flex-col bg-gray-800 rounded-lg overflow-hidden">
             {% block body %}{% endblock %}
           </div>

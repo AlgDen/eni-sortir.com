@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,31 +17,45 @@ class AfficherSortiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $dateDebut = new \DateTime();
+        $dateDebut->modify('-1 week');
+        $dateFin = new \DateTime();
+        $dateFin->modify('+1 week');
         $builder
-            ->add('lieu')
+            ->add('lieu',EntityType::class,[
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+                'label' => 'Lieu'
+            ])
             ->add('nom', TextType::class, [
                 'required' => false
             ])
-            ->add('date')
-            ->add('dateFin', DateType::class, [
-                'mapped' => false
+            ->add('dateDebut', DateType::class, [
+                'mapped' => false,
+                'data' => $dateDebut,
+                'format' => 'ddMMyyyy'
             ])
-            ->add('options1', CheckboxType::class, [
+            ->add('dateFin', DateType::class, [
+                'mapped' => false,
+                'data' => $dateFin,
+                'format' => 'ddMMyyyy'
+            ])
+            ->add('option1', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('options2', CheckboxType::class, [
+            ->add('option2', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je suis inscrit/e',
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('options3', CheckboxType::class, [
+            ->add('option3', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('options4', CheckboxType::class, [
+            ->add('option4', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false,
                 'mapped' => false
