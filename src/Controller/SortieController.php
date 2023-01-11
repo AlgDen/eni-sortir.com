@@ -3,16 +3,26 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\AfficherSortiesType;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     #[Route('/', name: 'app_sortie')]
     public function index(Request $request, SortieRepository $sortieRepository, UserRepository $userRepository): Response
     {
@@ -65,5 +75,22 @@ class SortieController extends AbstractController
             'data' => $data,
             'alert' => $empty
         ]);
+    }
+
+    #[Route('/inscription/{id}', name: 'app_sortie_inscription')]
+    public function inscription(ManagerRegistry $doctrine, $id): Response{
+        $entityManager = $doctrine->getManager();
+        $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+        $user = $entityManager->getRepository(User::class)->findOneBy(array('email' => $this->security->getUser()->getUserIdentifier()));
+        if ($sortie->getInscrits()->contains($user)) {
+            $sortie->removeInscrit($user);
+        } else {
+            $sortie->addInscrit($user);
+        }
+
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sortie');
     }
 }

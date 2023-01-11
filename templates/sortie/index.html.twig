@@ -72,10 +72,10 @@
                         Modifier
                     {% endif %}
                     {% if sortie.organisateur != app.user and app.user in sortie.inscrits and sortie.etat.id == 4 %}
-                        Se désister
+                        <a href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}">Se désister</a>
                     {% endif %}
-                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 %}
-                        S'incrire
+                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 and app.user %}
+                        <a href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}">S'incrire</a>
                     {% endif %}
                     {% if sortie.organisateur == app.user and sortie.etat.id == 1 %}
                         Publier
