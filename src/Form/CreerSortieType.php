@@ -96,10 +96,6 @@ class CreerSortieType extends AbstractType
             ->add('publier',SubmitType::class,[
                     'label' => 'Publier la sortie'
                 ]
-            )
-            ->add('annuler',ButtonType::class,[
-                    'label' => 'Annuler'
-                ]
             );
     }
 
