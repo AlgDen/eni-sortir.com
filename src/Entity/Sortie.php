@@ -47,6 +47,9 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $inscrits;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $eventIsCreated = null;
+
     public function __construct()
     {
         $this->inscrits = new ArrayCollection();
@@ -184,6 +187,18 @@ class Sortie
     public function removeInscrit(User $inscrit): self
     {
         $this->inscrits->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function isEventIsCreated(): ?bool
+    {
+        return $this->eventIsCreated;
+    }
+
+    public function setEventIsCreated(?bool $eventIsCreated): self
+    {
+        $this->eventIsCreated = $eventIsCreated;
 
         return $this;
     }
