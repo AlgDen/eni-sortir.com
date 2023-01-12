@@ -44,7 +44,17 @@
                 <td>{{ sortie.date|date("d/m/Y H:i") }}</td>
                 <td>{{ sortie.dateLimiteInscription|date("d/m/Y") }}</td>
                 <td>{{ sortie.inscrits.count }}/{{ sortie.nbParticipant }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
+                <td>
+                    {% if sortie.etat.id == 5 %}
+                        <p data-tooltip-target="tooltip-default" type="button" class="text-white ">{{ sortie.etat.libelle }} 📝</p>
+                        <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                            {{ sortie.motif }}
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
+
+                    {%  else %}
+                    {{ sortie.etat.libelle }}
+                    {% endif %}</td>
                 <td>
                     {% if app.user in sortie.inscrits %}
                         ×
