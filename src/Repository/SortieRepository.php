@@ -79,7 +79,8 @@ class SortieRepository extends ServiceEntityRepository
         if ($option4){
             $qb = $qb->andWhere('s.etat = 6');
         }
-        $qb = $qb->andWhere('s.date BETWEEN :dateD AND :dateF')
+        $qb = $qb->andWhere('s.etat != 7')
+            ->andWhere('s.date BETWEEN :dateD AND :dateF')
             ->setParameter('dateD', $dateDebut->format('Y-m-d'))
             ->setParameter('dateF', $dateFin->format('Y-m-d')) //Y-m-d
             ->orderBy('s.id', 'ASC')
@@ -88,9 +89,19 @@ class SortieRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
-//        dd($qb);
         return $qb;
     }
+
+    public function findAllSortie(){
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.etat != 7')
+            ->orderBy('s.date', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+        return $qb;
+}
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\AfficherSortiesType;
@@ -12,7 +11,6 @@ use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,7 +68,7 @@ class SortieController extends AbstractController
 //            return $this->redirectToRoute('app_sortie');
         }
         if($data == null){
-            $data = $sortieRepository->findBy(array(), array('date' => 'ASC'), 10, 0);
+            $data = $sortieRepository->findAllSortie();
         }
         return $this->render('sortie/index.html.twig', [
             'form' => $form,

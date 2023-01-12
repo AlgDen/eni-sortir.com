@@ -88,8 +88,8 @@
                     {% if sortie.organisateur == app.user and sortie.etat.id == 1 %}
                         Publier
                     {% endif %}
-                    {% if sortie.organisateur == app.user and sortie.etat.id == 6 %}
-                        Annuler
+                    {% if sortie.organisateur == app.user and sortie.etat.id != 2 and sortie.etat.id != 5 %}
+                        <a href="{{ path('app_annuler_sortie', {'id': sortie.id}) }}">Annuler</a>
                     {% endif %}
                 </td>
             </tr>
