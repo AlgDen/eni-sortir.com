@@ -16,9 +16,6 @@
         <li>
           <a href="{{ path('app_sortie') }}" {% if route_name == "app_sortie" %} aria-current="page" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" {% else %} class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white" {% endif %}>Accueil</a>
         </li>
-        <li>
-          <a href="{{ path('account_profile') }}" {% if route_name == "account_profile" %} aria-current="page" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" {% else %} class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white" {% endif %}>Gérer mon profil</a>
-        </li>
         {% if app.user is empty %}
           <li>
             <a href="{{ path('app_login') }}" {% if route_name == "app_login" %} aria-current="page" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" {% else %} class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white" {% endif %}>Se connecter</a>
@@ -27,6 +24,9 @@
             <a href="{{ path('app_register') }}" {% if route_name == "app_register" %} aria-current="page" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" {% else %} class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white" {% endif %}>S'inscrire</a>
           </li>
         {% else %}
+          <li>
+            <a href="{{ path('account_profile') }}" {% if route_name == "account_profile" %} aria-current="page" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" {% else %} class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white" {% endif %}>Gérer mon profil</a>
+          </li>
           <li>
             <a href="{{ path('app_logout') }}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 text-gray-400 hover:bg-gray-700 hover:text-white">Déconnexion</a>
           </li>

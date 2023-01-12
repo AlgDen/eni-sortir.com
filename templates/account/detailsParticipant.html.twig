@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+  Détails participant
+{% endblock %}
+
+{% block body %}
+  <h1 class="mb-6 p-3 bg-blue-700 dark:bg-blue-600 text-center align-middle	 uppercase text-2xl font-bold text-slate-200">{{ user.nickName ?? "no nickname" }}</h1>
+  <div class="md:grid md:grid-cols-3 md:grid-rows-1">
+    <div class="p-3">
+      <img class="object-cover h-full rounded-lg" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="">
+    </div>
+    <div class="p-3 col-span-2">
+      <div class="mb-4">
+        <label class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Prénom</label>
+        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ user.firstname ?? '' }}" disabled>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Nom de famille</label>
+        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ user.lastname ?? '' }}" disabled>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Téléphone</label>
+        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ user.phoneNumber ?? '' }}" disabled>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Email</label>
+        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ user.email ?? '' }}" disabled>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Site</label>
+        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ user.site.nom ?? '' }}" disabled>
+      </div>
+      <button class="h-10 p-2.5 bg-blue-600 w-full rounded-lg leading-none hover:bg-blue-500" onClick="window.history.back();" type="button">Retour</button>
+    </div>
+  </div>
+{% endblock %}
