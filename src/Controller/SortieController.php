@@ -47,8 +47,6 @@ class SortieController extends AbstractController
         $empty = null;
 
         if ($form->isSubmitted()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $data = $form->getData();
             $dateDebut = $form->get('dateDebut')->getData();
             $dateFin = $form->get('dateFin')->getData();
