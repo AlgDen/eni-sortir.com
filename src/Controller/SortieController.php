@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\AfficherSortiesType;
+use App\Form\AnnulerSortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,5 +97,32 @@ class SortieController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_sortie');
+    }
+
+    #[Route('/annulerSortie/{id}', name: 'app_annuler_sortie')]
+    public function annulerSortie($id,Request $request,EntityManagerInterface $entityManager,EtatRepository $etatRepository): Response
+    {
+        $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+
+        $form = $this->createForm(AnnulerSortieType::class,$sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+            $sortie->setMotif($form->get('motif')->getData());
+
+            $sortie->setEtat($etatRepository->find(5));
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_sortie');
+        }
+
+        return $this->render('sortie/annuler.html.twig', [
+            'nom' => $sortie->getNom(),
+            'date' => $sortie->getDate()->format('Y-m-d H:i:s'),
+            'site' => $sortie->getSite(),
+            'lieu' => $sortie->getLieu(),
+            'annulerSortieForm' => $form,
+        ]);
     }
 }

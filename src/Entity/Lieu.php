@@ -40,6 +40,11 @@ class Lieu
         $this->sorties = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+       return $this->nom . " " . $this->rue . " " . $this->ville->getCodePostal() . " ".$this->ville->getNom();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,8 +92,6 @@ class Lieu
 
         return $this;
     }
-
-
 
     public function getRue(): ?string
     {

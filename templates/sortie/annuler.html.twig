@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Annuler une sortie</h1>
+    <label>Nom de la sortie : {{ nom }}</label>
+    <label>Date et heure de la sortie : {{ date }}</label>
+    <label>Site organisateur : {{ site }}</label>
+    <label>Lieu : {{ lieu }}</label>
+    {{ form(annulerSortieForm) }}
+    <button><a href="{{ path('app_sortie') }}"></a>Annuler</button>
+{% endblock %}

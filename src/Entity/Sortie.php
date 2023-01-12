@@ -50,6 +50,12 @@ class Sortie
     #[ORM\Column(nullable: true)]
     private ?int $nbInscrits = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $motif = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    private ?Site $site = null;
+
     public function __construct()
     {
         $this->inscrits = new ArrayCollection();
@@ -199,6 +205,30 @@ class Sortie
     public function setNbInscrits(?int $nbInscrits): self
     {
         $this->nbInscrits = $nbInscrits;
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }
