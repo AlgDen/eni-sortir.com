@@ -69,7 +69,6 @@ class SortieController extends AbstractController
         if($data == null){
             $data = $sortieRepository->findBy(array(), array('date' => 'ASC'), 10, 0);
         }
-        //TODO: if data is null then take find all, else take search from form
         return $this->render('sortie/index.html.twig', [
             'form' => $form,
             'data' => $data,
@@ -84,11 +83,14 @@ class SortieController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(array('email' => $this->security->getUser()->getUserIdentifier()));
         if ($sortie->getInscrits()->contains($user)) {
             $sortie->removeInscrit($user);
+            if($sortie->getDateLimiteInscription() > new \DateTime()){
+                $sortie->setNbInscrits($sortie->getNbInscrits()-1);
+            }
         } else {
             $sortie->addInscrit($user);
+            $sortie->setNbInscrits($sortie->getNbInscrits()+1);
         }
-
-
+        $entityManager->persist($sortie);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_sortie');

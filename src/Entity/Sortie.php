@@ -47,6 +47,9 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $inscrits;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbInscrits = null;
+
     public function __construct()
     {
         $this->inscrits = new ArrayCollection();
@@ -184,6 +187,18 @@ class Sortie
     public function removeInscrit(User $inscrit): self
     {
         $this->inscrits->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function getNbInscrits(): ?int
+    {
+        return $this->nbInscrits;
+    }
+
+    public function setNbInscrits(?int $nbInscrits): self
+    {
+        $this->nbInscrits = $nbInscrits;
 
         return $this;
     }

@@ -73,7 +73,7 @@
                     {% if sortie.organisateur != app.user and app.user in sortie.inscrits and sortie.etat.id == 4 %}
                         <a href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}">Se désister</a>
                     {% endif %}
-                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 and app.user and sortie.dateLimiteInscription > 'now'|date('d/m/Y') %}
+                    {% if sortie.organisateur != app.user and app.user not in sortie.inscrits and sortie.etat.id == 4 and app.user and sortie.dateLimiteInscription > 'now'|date('d/m/Y') and sortie.nbInscrits < sortie.nbParticipant %}
                         <a href="{{ path('app_sortie_inscription', {'id': sortie.id}) }}">S'incrire</a>
                     {% endif %}
                     {% if sortie.organisateur == app.user and sortie.etat.id == 1 %}
