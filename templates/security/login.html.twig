@@ -4,8 +4,9 @@
 
 {% block body %}
 
+<div class="container security-container">
+    <h1 class="mb-4 text-4xl font-extrabold dark:text-white">Please sign in</h1>
 <form method="post">
-    <div class="container security-container">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -15,26 +16,24 @@
                 You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
         {% endif %}
-
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
+        
         {# email #}
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
-                <label for="inputEmail">Email</label>
+                <label for="inputEmail" class="form-label inline-block mb-2 text-slate-100">Email</label>
             </div>
             <div class="col">
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" autocomplete="email" required autofocus>
             </div>
         </div>
         
         {# password #}
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
-                <label for="inputPassword">Password</label>
+                <label class="form-label inline-block mb-2 text-slate-100" for="inputPassword">Password</label>
             </div>
             <div class="col">
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <input type="password" name="password" id="inputPassword" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" autocomplete="current-password" required>
             </div>
         </div>
 
@@ -44,15 +43,15 @@
 
         
         <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
+            <label class="leading-none">
+                <input type="checkbox" name="_remember_me" class="rounded"> Remember me
             </label>
         </div>
     
 
-        <button class="btn btn-lg btn-primary" type="submit">
+        <button class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded bg-blue-600" type="submit">
             Sign in
         </button>
-    </div>
 </form>
+</div>
 {% endblock %}
