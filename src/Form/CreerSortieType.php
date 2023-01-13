@@ -28,19 +28,23 @@ class CreerSortieType extends AbstractType
         $builder
             ->add('nom',null,[
                 'label' => 'Nom de la sortie',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('date',DateTimeType::class,[
                 'label' => 'Date et heure de la sortie',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('dateLimiteInscription',null,[
                 'label' => 'Date limite d\'inscription',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('nbParticipant',IntegerType::class,[
                 'label' => 'Nombre de places',
                 'constraints' => [new Positive()],
                 'attr' => [
                     'min' => 1,
-                    'style' => 'width: 50px'
+                    'style' => 'width: 80px',
+                    'class' => 'bg-transparent'
                 ]
             ])
             ->add('duree',IntegerType::class,[
@@ -48,11 +52,13 @@ class CreerSortieType extends AbstractType
                 'constraints' => [new Positive()],
                 'attr' => [
                      'min' => 1,
-                     'style' => 'width: 50px'
+                     'style' => 'width: 80px',
+                    'class' => 'bg-transparent'
                 ]
             ])
             ->add('note',TextareaType::class,[
                 'label' => 'Description et infos',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('lieu',EntityType::class,[
                 'class' => Lieu::class,
@@ -60,33 +66,39 @@ class CreerSortieType extends AbstractType
                 'choice_attr' => function (Lieu $choice, $key, $value) {
                     return ['data-idLieu' => $choice->getId()];
                 },
-                'label' => 'Lieu'
+                'label' => 'Lieu',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('ville',TextType::class,[
 //                'class' => Ville::class,
                 'label' => 'Ville',
                 'disabled' => true,
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('rue',null,[
                 'label' => 'Rue',
                 'disabled' => true,
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('cp',null,[
                 'label' => 'Code Postal',
                 'disabled' => true,
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('latitude',null,[
                 'label' => 'Latitude',
                 'disabled' => true,
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('longitude',null,[
                 'label' => 'Longitude',
                 'disabled' => true,
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('enregistrer',SubmitType::class,[
                 'label' => 'Enregistrer'

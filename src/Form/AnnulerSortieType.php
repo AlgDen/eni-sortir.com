@@ -21,6 +21,7 @@ class AnnulerSortieType extends AbstractType
         $builder
             ->add('motif',TextareaType::class,[
                 'label' => 'Motif',
+                'attr' => ['class' => 'bg-transparent']
             ])
             ->add('enregistrer',SubmitType::class,[
                 'label' => 'Enregistrer'
