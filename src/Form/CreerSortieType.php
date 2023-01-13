@@ -58,7 +58,6 @@ class CreerSortieType extends AbstractType
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
                 'choice_attr' => function (Lieu $choice, $key, $value) {
-                    // adds a class like attending_yes, attending_no, etc
                     return ['data-idLieu' => $choice->getId()];
                 },
                 'label' => 'Lieu'

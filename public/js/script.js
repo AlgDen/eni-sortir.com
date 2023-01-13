@@ -1,9 +1,5 @@
 window.onload = function() {
-
-    // let select = document.getElementById("creer_sortie_lieu");
     let idLieu = $("#creer_sortie_lieu").find(":selected").attr("data-idlieu");
-    console.log(idLieu);
-
     $.ajax({
         url : "lieuData",
         type : 'GET',
@@ -18,16 +14,14 @@ window.onload = function() {
             $("#creer_sortie_rue").val(data.rue);
             $("#creer_sortie_latitude").val(data.latitude);
             $("#creer_sortie_longitude").val(data.longitude);
-
-            console.log(data.nom)
         }
     })};
+//Listener sur le changement de lieu dans le select
 $("#creer_sortie_lieu").change(function() {
 
-    // let select = document.getElementById("creer_sortie_lieu");
+    // on récupère l'id du lieu actuellement selectionné
     let idLieu = $("#creer_sortie_lieu").find(":selected").attr("data-idlieu");
-    console.log(idLieu);
-
+    // Requete ajax pour envoyer l'id du lieu au controller
     $.ajax({
         url : "lieuData",
         type : 'GET',
@@ -37,13 +31,12 @@ $("#creer_sortie_lieu").change(function() {
         },
         success: function (data)
         {
-           $("#creer_sortie_ville").val(data.ville);
+            //on récupères les données envoyées par le controller et on remplit les champs
+            $("#creer_sortie_ville").val(data.ville);
             $("#creer_sortie_cp").val(data.cp);
             $("#creer_sortie_rue").val(data.rue);
             $("#creer_sortie_latitude").val(data.latitude);
             $("#creer_sortie_longitude").val(data.longitude);
-
-            console.log(data.nom)
         }
     });
 });

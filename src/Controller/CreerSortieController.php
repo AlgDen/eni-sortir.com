@@ -28,7 +28,6 @@ class CreerSortieController extends AbstractController
     #[Route('/creerSortie', name: 'app_creer_sortie')]
     public function creerSortie(Request $request,EntityManagerInterface $entityManager, EtatRepository $etatRepository,UserRepository $userRepository): Response
     {
-
         $sortie = new Sortie();
         $form = $this->createForm(CreerSortieType::class, $sortie);
         $form->handleRequest($request);
@@ -57,10 +56,10 @@ class CreerSortieController extends AbstractController
     #[Route('/lieuData', name: 'app_lieu_data')]
     public function getLieuData(Request $request, EntityManagerInterface $entityManager, LieuRepository $lieuRepository, VilleRepository $villeRepository): JsonResponse
     {
+        //On récupère les données du lieu et de la ville grâce à l'id du lieu envoyé par la requete ajax.
         $lieu = $lieuRepository->find($request->get("idLieu"));
         $ville = $villeRepository->find($lieu->getVille()->getId());
-//        dd($lieu);
-//        dd($request->get("idLieu"));
+        //on renvoit les données en json
         return new JsonResponse(array("nom"=>$lieu->getNom(),"ville"=>$ville->getNom(),"cp"=>$ville->getCodePostal(),"rue" => $lieu->getRue(),"latitude" => $lieu->getLatitude(),"longitude"=>$lieu->getLongitude()));
     }
 }
