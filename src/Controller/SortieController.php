@@ -65,7 +65,6 @@ class SortieController extends AbstractController
             } else {
                 $empty = false;
             }
-//            return $this->redirectToRoute('app_sortie');
         }
         if($data == null){
             $data = $sortieRepository->findAllSortie();

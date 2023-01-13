@@ -13,15 +13,15 @@
     <span>
         <h1>Filtrer les sorties</h1>
         {{ form_start(form) }}
-        Site : {{ form_widget(form.lieu) }}<br>
-        Le nom de la sortie contient : {{ form_widget(form.nom) }}<br>
-        Entre {{ form_widget(form.dateDebut) }} et {{ form_widget(form.dateFin) }}<br>
+        Site : {{ form_widget(form.lieu, {'attr': {'class': 'bg-transparent'}}) }}<br>
+        Le nom de la sortie contient : {{ form_widget(form.nom, {'attr': {'class': 'bg-transparent'}}) }}<br>
+        Entre {{ form_widget(form.dateDebut, {'attr': {'class': 'bg-transparent'}}) }} et {{ form_widget(form.dateFin, {'attr': {'class': 'bg-transparent'}}) }}<br>
         {{ form_end(form) }}
     </span>
 
     {% if alert %}
-        <div class="alert alert-warning" role="alert">
-            [To Patch] Aucune donnée trouvée
+        <div class="rounded-lg border-2 border-rose-600" role="alert">
+            Aucune donnée trouvée
         </div>
     {% endif %}
     <table class="table-auto">

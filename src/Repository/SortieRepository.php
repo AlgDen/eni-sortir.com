@@ -64,17 +64,14 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('user', $userRepository->findOneBy(array('email' => $user->getUserIdentifier())));
         }
         if ($option2 && $user) {
-            $qb = $qb->innerJoin('s.inscrits', 'su');
-            $qb = $qb->andWhere('su.email = :user')
+            $qb = $qb->leftJoin('s.inscrits', 'su');
+            $qb = $qb->andWhere('su.email LIKE :user')
                 ->setParameter('user', $user->getUserIdentifier());
-
-//            $qb = $qb->andWhere('su.sortie_id = s.id')x²
-//                ->andWhere('su. = u.id')
-//                ->andWhere('u.email = :user')
-//                ->setParameter('user', $user->getUserIdentifier());
         }
         if($option3) {
-//            $qb = $qb->andWhere('s.inscrits = u.');
+            $qb = $qb->leftJoin('s.inscrits', 'su');
+            $qb = $qb->andWhere(':user NOT IN (su)')
+                ->setParameter('user', $user->getUserIdentifier());
         }
         if ($option4){
             $qb = $qb->andWhere('s.etat = 6');
